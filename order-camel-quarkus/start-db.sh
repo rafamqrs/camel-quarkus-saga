@@ -1,0 +1,1 @@
+podman run -d -p 5432:5432 -v "/tmp/postgres/data:/var/lib/postgresql/data" -e POSTGRES_PASSWORD=postgres -e PRIMARY_USER=postgres postgres
