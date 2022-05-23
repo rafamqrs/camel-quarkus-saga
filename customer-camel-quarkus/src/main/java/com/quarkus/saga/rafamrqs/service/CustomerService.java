@@ -27,23 +27,22 @@ public class CustomerService extends RouteBuilder{
         .consumes("application/json")
         .produces("application/json")
 
+        .get()
+        .to("direct:getCustomers")
+
         .post()
-        .to("direct:postCustomer");
+        .to("direct:saveCustomer");
 
 
 
 
-        from("direct:postCustomer")
-        .bean("customerBean", "hello")
-        .log("Testando... ${body}")
+        from("direct:getCustomers")
         .to("mongodb:camelMongoClient?database=camel-saga&collection=customers&operation=findAll");
 
-//        from("direct:insert")
-//        .to("mongodb:camelMongoClient?database=local&collection=myCollection&operation=save");
+        from("direct:saveCustomer")
+        .bean("customerBean", "setRegistrationDate")
+        .to("mongodb:camelMongoClient?database=camel-saga&collection=customers&operation=save");
 
-
-//        from("mongodb:mongoClient1?database=local&collection=cart&operation=findAll")
-//        .log("Testando");                
     }
     
 }
